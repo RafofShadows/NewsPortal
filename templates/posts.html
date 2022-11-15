@@ -1,0 +1,25 @@
+{% extends 'default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+Posts
+{% endblock title %}
+
+{% block content %}
+    <h1>Новости и статьи ({{posts|length}})</h1>
+    {% if posts %}
+    <table>
+        {% for post in posts %}
+        <tr style="font-size:20px" align="left">
+            <td><b>{{post.header|censor}}</b> </td>
+            <td>{{post.timestamp|date:'d M Y'}}</td>
+            <td>{{post.text|truncatechars:20|censor}}</td>
+        </tr>
+
+        {% endfor %}
+    </table>
+    {% else %}
+        <h2>Новостей нет.</h2>
+    {% endif %}
+{% endblock content %}

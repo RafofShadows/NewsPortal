@@ -1,0 +1,13 @@
+{% extends 'default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+Post
+{% endblock title %}
+
+{% block content %}
+<h1>{{post.header|censor}}</h1>
+<h3>От {{post.timestamp|date:'d.M.Y'}}</h3>
+<p align="left">{{post.text|censor}}</p>
+{% endblock content %}
