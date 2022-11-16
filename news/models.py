@@ -9,6 +9,9 @@ class Author(models.Model):
     rating = models.IntegerField(default=0)
     user_id = models.OneToOneField(User, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return str(self.user_id.username)
+
     def update_rating(self):
         res = 0
         for post in Post.objects.filter(author=self.pk):
@@ -23,6 +26,9 @@ class Author(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=255, unique=True)
+
+    def __str__(self):
+        return self.name
 
 
 News = 'NEW'
@@ -55,7 +61,10 @@ class Post(models.Model):
         return self.text[:124] + '...'
 
     def get_absolute_url(self):
-        return reverse('post_detail', args=[str(self.pk)])
+        if self.post_type == News:
+            return reverse('news_detail', args=[str(self.pk)])
+        else:
+            return reverse('articles_detail', args=[str(self.pk)])
 
     def __str__(self):
         return f"{self.header}\n{self.text}"

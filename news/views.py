@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from .forms import PostForm
-from .models import Post
+from .models import Post, News, Article
 from .filters import PostFilter
 # Create your views here.
 
@@ -43,8 +43,36 @@ class PostUpdate(UpdateView):
     model = Post
     template_name = 'post_edit.html'
 
+    # def form_valid(self, form):
+    #     post = form.save(commit=False)
+    #     post.
+
 
 class PostDelete(DeleteView):
     model = Post
     template_name = 'post_delete.html'
     success_url = reverse_lazy('post_list')
+
+
+class NewsCreate(CreateView):
+    form_class = PostForm
+    model = Post
+    template_name = 'post_edit.html'
+
+    def form_valid(self, form):
+        post = form.save(commit=False)
+        post.post_type = News
+        post.rating = 0
+        return super().form_valid(form)
+
+
+class ArticlesCreate(CreateView):
+    form_class = PostForm
+    model = Post
+    template_name = 'post_edit.html'
+
+    def form_valid(self, form):
+        post = form.save(commit=False)
+        post.post_type = Article
+        post.rating = 0
+        return super().form_valid(form)

@@ -8,10 +8,12 @@ Posts
 
 {% block content %}
     <h1>Новости и статьи ({{posts|length}})</h1>
+    {% if "search" in request.path %}
     <form action="" method="get">
         {{filterset.form.as_p}}
         <input type="submit" value="Найти" />
     </form>
+    {% endif %}
     {% if posts %}
     <table>
         {% for post in posts %}

@@ -10,4 +10,10 @@ Post
 <h1>{{post.header|censor}}</h1>
 <h3>От {{post.timestamp|date:'d.M.Y'}}</h3>
 <p align="left">{{post.text|censor}}</p>
+<table>
+    <tr>
+        <td><form action="{{request.path}}/update/"><input type="submit" value="Редактировать"></form> </td>
+        <td><form action="{{request.path}}/delete/"><input type="submit" value="Удалить"></form> </td>
+    </tr>
+</table>
 {% endblock content %}
