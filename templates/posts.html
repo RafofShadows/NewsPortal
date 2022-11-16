@@ -8,11 +8,15 @@ Posts
 
 {% block content %}
     <h1>Новости и статьи ({{posts|length}})</h1>
+    <form action="" method="get">
+        {{filterset.form.as_p}}
+        <input type="submit" value="Найти" />
+    </form>
     {% if posts %}
     <table>
         {% for post in posts %}
         <tr style="font-size:20px" align="left">
-            <td><b>{{post.header|censor}}</b> </td>
+            <td><a href="{{post.get_absolute_url}}"><b>{{post.header|censor}}</b></a></td>
             <td>{{post.timestamp|date:'d M Y'}}</td>
             <td>{{post.text|truncatechars:20|censor}}</td>
         </tr>
@@ -22,4 +26,18 @@ Posts
     {% else %}
         <h2>Новостей нет.</h2>
     {% endif %}
+    {% if page_obj.has_previous %}
+        <a href="?page=1">1</a>
+        {% if page_obj.previous_page_number != 1 %}
+            <a href="?page={{page_obj.previous_page_number}}">{{page_obj.previous_page_number}}</a>
+        {% endif %}
+    {% endif %}
+    {{page_obj.page_number}}
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+        {% if paginator.num_pages != page_obj.next_page_number %}
+            <a href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+        {% endif %}
+    {% endif %}
+
 {% endblock content %}
