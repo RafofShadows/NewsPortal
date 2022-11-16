@@ -12,3 +12,11 @@ class PostForm(forms.ModelForm):
             'categories',
         ]
 
+
+class DateInput(forms.DateInput):
+    input_type = 'date'
+
+
+class DateTimeInput(forms.DateTimeInput):
+    input_type = 'datetime-local'
+
