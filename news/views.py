@@ -128,6 +128,12 @@ class CategoryView(DetailView):
     context_object_name = 'category'
 
 
+class CategoryList(ListView):
+    model = Category
+    template_name = 'category_list.html'
+    context_object_name = 'categories'
+
+
 @login_required
 def add_subscriber(request, pk):
     category = Category.objects.get(pk=pk)

@@ -39,8 +39,6 @@ class Category(models.Model):
         return reverse('category', args=[str(self.pk)])
 
 
-#class CategorySubsc
-
 
 News = 'NEW'
 Article = 'ART'
