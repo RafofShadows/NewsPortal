@@ -30,7 +30,7 @@ def send_subscription(post):
             )
             msg = EmailMultiAlternatives(
                 subject=post.header,
-                from_email='pickers97@yandex.ru',
+                from_email='newsportaltest@yandex.ru',
                 to=[user.email]
             )
             msg.attach_alternative(html_content, 'text/html')

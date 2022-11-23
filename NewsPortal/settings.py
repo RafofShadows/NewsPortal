@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.flatpages',
     'django_filters',
+    'django_apscheduler',
 
     'fpages',
     'news.apps.NewsConfig',
@@ -163,7 +164,9 @@ STATICFILES_DIRS = [
 
 EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 465
-EMAIL_HOST_USER = 'pickers97'
-EMAIL_HOST_PASSWORD = 'icsfrgmfjujtjsgc'
+EMAIL_HOST_USER = 'newsportaltest'
+EMAIL_HOST_PASSWORD = 'uxrxfnckyovgthkf'
 EMAIL_USE_SSL = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER + '@yandex.ru'
+
+APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
