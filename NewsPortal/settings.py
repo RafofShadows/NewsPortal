@@ -130,7 +130,7 @@ ACCOUNT_LOGOUT_REDIRECT_URL = '/portal/'
 LOGIN_REDIRECT_URL = '/portal/'
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/

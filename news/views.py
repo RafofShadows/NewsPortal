@@ -146,7 +146,6 @@ def send_subscription(post):
     )
     for category in post.categories.all():
         for user in category.subscribers.all():
-        #mail_list = list([u.email for u in category.subscribers.all()])
             msg = EmailMultiAlternatives(
                 subject=post.header,
                 body=f"Здравствуй, {user.username}. Новая статья в твоём любимом разделе!",
