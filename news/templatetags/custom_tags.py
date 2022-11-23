@@ -1,4 +1,5 @@
 from django import template
+from django.urls import reverse
 
 register = template.Library()
 
@@ -10,4 +11,8 @@ def url_replace(context, **kwargs):
         d[k] = v
     return d.urlencode()
 
+
+@register.simple_tag()
+def upgrade_url():
+    return reverse('upgrade')
 
