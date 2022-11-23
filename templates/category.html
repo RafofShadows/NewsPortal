@@ -1,0 +1,23 @@
+{% extends 'default.html' %}
+
+{% load custom_filters %}
+
+{% block title %}
+Category
+{% endblock title %}
+
+{% block content %}
+<h1>{{category.name}}</h1>
+<table>
+    {% for post in category.posts %}
+    <tr style="font-size:20px" align="left">
+        <td><a href="{{post.get_absolute_url}}"><b>{{post.header|censor}}</b></a></td>
+        <td>{{post.timestamp|date:'d M Y'}}</td>
+        <td>{{post.text|truncatechars:20|censor}}</td>
+    </tr>
+    {% endfor %}
+    <tr>
+        <td><form action="subscribe/"><input type="submit" value="Подписаться"></form></td>
+    </tr>
+</table>
+{% endblock content %}

@@ -26,9 +26,20 @@ class Author(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=255, unique=True)
+    subscribers = models.ManyToManyField(User)
 
     def __str__(self):
         return self.name
+
+    def posts(self):
+        post_list = list(Post.objects.filter(categories=self))
+        return post_list
+
+    def get_absolute_url(self):
+        return reverse('category', args=[str(self.pk)])
+
+
+#class CategorySubsc
 
 
 News = 'NEW'
