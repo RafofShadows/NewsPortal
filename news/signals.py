@@ -6,13 +6,15 @@ from django.db.models.signals import post_save, m2m_changed
 from django.dispatch import receiver
 from django.template.loader import render_to_string
 
+from news import tasks
 from news.models import Post, PostCategory
 
 
 #@receiver(m2m_changed, sender=Post.categories.through)
 def post_notify(sender, instance, action, **kwargs):
     if action == "post_add":
-        transaction.on_commit(lambda: send_subscription(instance))
+        #transaction.on_commit(lambda: send_subscription(instance))
+        tasks.send_subscription.delay(post_id=instance.pk)
 
 
 m2m_changed.connect(post_notify, sender=Post.categories.through)
