@@ -65,6 +65,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+
+    'log_middleware.FilterLevels',
 ]
 
 ROOT_URLCONF = 'NewsPortal.urls'
@@ -179,3 +181,125 @@ CELERY_RESULT_BACKEND = 'redis://localhost:6379'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers ': False,
+    'style': '{',
+    'formatters': {
+        'console_debug_format': {
+            'format': '%(asctime)s %(levelname)s %(message)s'
+        },
+        'console_warning_format': {
+            'format': '%(asctime)s %(levelname)s %(pathname)s %(message)s'
+        },
+        'console_error_format': {
+            'format': '%(asctime)s %(levelname)s %(pathname)s %(message)s %(exc_info)s'
+        },
+        'errors_error_format': {
+            'format': '%(asctime)s %(levelname)s %(pathname)s %(message)s %(exc_info)s'
+        },
+        'mail_error_format': {
+            'format': '%(asctime)s %(levelname)s %(pathname)s %(message)s'
+        },
+        'general_info_format': {
+            'format': '%(asctime)s %(levelname)s %(module) %(message)s'
+        },
+        'security_format': {
+            'format': '%(asctime)s %(levelname)s %(module) %(message)s'
+        },
+    },
+    'filters': {
+        'require_debug_true': {
+                    '()': 'django.utils.log.RequireDebugTrue',
+            },
+        'require_debug_false': {
+                    '()': 'django.utils.log.RequireDebugFalse',
+            },
+        'console_debug_filter': {
+            '()': 'log_middleware.FilterLevels',
+            'filter_levels': ["DEBUG"]
+        },
+        'console_debug_warning': {
+            '()': 'log_middleware.FilterLevels',
+            'filter_levels': ["WARNING"]
+        },
+        'console_debug_error': {
+            '()': 'log_middleware.FilterLevels',
+            'filter_levels': ["WARNING"]
+        },
+    },
+    'handlers': {
+        'console_debug_handler': {
+            'formatter': 'console_debug_format',
+            'class': 'logging.StreamHandler',
+            'filters': ['console_debug_filter', 'require_debug_true'],
+        },
+        'console_warning_handler': {
+            'formatter': 'console_warning_format',
+            'class': 'logging.StreamHandler',
+            'filters': ['console_warning_filter', 'require_debug_true'],
+        },
+        'console_error_handler': {
+            'formatter': 'console_error_format',
+            'class': 'logging.StreamHandler',
+            'filters': ['console_error_filter', 'require_debug_true'],
+        },
+        'general_info_handler': {
+            'level': 'INFO',
+            'formatter': 'general_info_format',
+            'class': 'logging.FileHandler',
+            'filters': ['require_debug_false'],
+            'filename': 'general.log'
+        },
+        'error_handler': {
+            'level': 'ERROR',
+            'formatter': 'errors_error_format',
+            'class': 'logging.FileHandler',
+            'filename': 'errors.log'
+        },
+        'security_handler': {
+            'level': 'DEBUG',
+            'formatter': 'security_format',
+            'class': 'logging.FileHandler',
+            'filename': 'security.log'
+        },
+        'email_handler': {
+            'level': 'ERROR',
+            'formatter': 'mail_error_format',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'filters': ['require_debug_false'],
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': [
+                'console_debug_handler',
+                'console_warning_handler',
+                'console_error_handler',
+                'general_info_handler'
+            ],
+            'propagate': True,
+        },
+        'django.request': {
+            'handlers': ['error_handler', 'email_handler'],
+            'propagate': False,
+        },
+        'django.server': {
+            'handlers': ['error_handler', 'email_handler'],
+            'propagate': False,
+        },
+        'django.template': {
+            'handlers': ['error_handler'],
+            'propagate': False,
+        },
+        'django.db.backends': {
+            'handlers': ['error_handler'],
+            'propagate': False,
+        },
+        'django.security': {
+            'handlers': ['security_handler'],
+            'propagate': False,
+        },
+    }
+}
